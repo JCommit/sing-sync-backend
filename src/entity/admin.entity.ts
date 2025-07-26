@@ -1,10 +1,17 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { SocialMedia } from './socialMedia.entity';
 
 @Entity()
 export class Admin {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 100, unique: true })
@@ -19,7 +26,9 @@ export class Admin {
   @Column({ type: 'text', nullable: true })
   bio: string;
 
-  @OneToMany(() => SocialMedia, socialMedia => socialMedia.id, { nullable: true })
+  @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.id, {
+    nullable: true,
+  })
   socialMedia: SocialMedia[];
 
   @CreateDateColumn()
