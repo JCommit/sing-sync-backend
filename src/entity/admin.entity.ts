@@ -26,7 +26,7 @@ export class Admin {
   @Column({ type: 'text', nullable: true })
   bio: string;
 
-  @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.id, {
+  @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.adminId, {
     nullable: true,
   })
   socialMedia: SocialMedia[];

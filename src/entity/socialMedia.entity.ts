@@ -13,8 +13,11 @@ export class SocialMedia {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => SocialMediaType, { nullable: false })
-  socialMediaType: SocialMediaType;
+  @Column({ type: 'uuid' })
+  adminId: string;
+
+  @Column({ type: 'uuid' })
+  socialMediaTypeId: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   url: string;
