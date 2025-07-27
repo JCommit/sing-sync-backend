@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { HealthModule } from './health/health.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -37,25 +38,32 @@ import { HealthModule } from './health/health.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService): TypeOrmModuleOptions => {
-        const isProd = config.get<string>('NODE_ENV') === 'production';
+        const isProd = config.get('NODE_ENV') === 'production';
 
         return {
           type: 'mariadb',
-          host: config.get<string>('DATABASE_HOST'),
-          port: parseInt(config.get<string>('DATABASE_PORT', '3306'), 10),
-          username: config.get<string>('DATABASE_USERNAME'),
-          password: config.get<string>('DATABASE_PASSWORD'),
-          database: config.get<string>('DATABASE_NAME'),
+          host: config.get('DATABASE_HOST'),
+          port: +config.get('DATABASE_PORT', '3306'),
+          username: config.get('DATABASE_USERNAME'),
+          password: config.get('DATABASE_PASSWORD'),
+          database: config.get('DATABASE_NAME'),
+
           autoLoadEntities: true,
-          synchronize: !isProd,
-          logging: 'all',
+          synchronize: !isProd, // auto-sync in dev
+          logging: ['error', 'schema', 'warn', 'info', 'migration'],
+
+          // Run migrations in prod only
+          migrationsRun: isProd,
+
+          // point at your compiled JS
+          migrations: [join(__dirname, 'migrations', '*.js')],
+          entities: [join(__dirname, 'entity', '*.js')],
         };
       },
     }),
   ],
   controllers: [],
   providers: [
-    // apply throttling globally
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
