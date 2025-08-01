@@ -1,9 +1,7 @@
-import { SocialMediaType } from 'src/entity/socialMediaType.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
