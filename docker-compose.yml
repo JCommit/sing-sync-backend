@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: mariadb_redbiidd_sing_sync
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: redbiidd_sing_sync
+      MARIADB_USER: redbiidd_sing_sync
+      MARIADB_PASSWORD: J?MPazg9axftr&97
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+
+volumes:
+  db_data:

@@ -12,14 +12,31 @@ import helmet from 'helmet';
 import * as compression from 'compression';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const isProd = config.get<string>('NODE_ENV') === 'production';
 
-  // Security & Performance
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'default-src': ["'self'"],
+          'script-src': ["'self'", 'https://cdn.jsdelivr.net'],
+          'style-src': [
+            "'self'",
+            "'unsafe-inline'",
+            'https://cdn.jsdelivr.net',
+          ],
+          'img-src': ["'self'", 'data:', 'https://cdn.jsdelivr.net'],
+          'font-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.scalar.com'],
+        },
+      },
+    }),
+  );
   app.use(
     compression({
       level: isProd ? 6 : 0,
@@ -95,17 +112,17 @@ async function bootstrap(): Promise<void> {
     deepScanRoutes: true,
     operationIdFactory: (ctrl, method) => `${ctrl}_${method}`,
   });
-  SwaggerModule.setup(
-    config.get<string>('SWAGGER_PATH', 'api/docs'),
-    app,
-    document,
-    {
-      swaggerOptions: { persistAuthorization: true },
-    },
-  );
 
   // Graceful shutdown
   app.enableShutdownHooks();
+
+  app.use(
+    '/api/docs',
+    apiReference({
+      content: document,
+      theme: "default",
+    }),
+  );
 
   // Start
   const port = config.get<number>('PORT', 3000);

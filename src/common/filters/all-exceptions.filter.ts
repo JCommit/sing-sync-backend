@@ -17,15 +17,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    let status =
+    const status =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    let message =
+    const message: unknown =
       exception instanceof HttpException
         ? exception.getResponse()
-        : (exception as any).message || 'Internal server error';
+        : /* eslint-disable  @typescript-eslint/no-unsafe-member-access */
+          (exception as any).message || 'Internal server error';
 
     // Log the full stack
     this.logger.error(
