@@ -32,7 +32,11 @@ async function bootstrap(): Promise<void> {
             'https://cdn.jsdelivr.net',
           ],
           'img-src': ["'self'", 'data:', 'https://cdn.jsdelivr.net'],
-          'font-src': ["'self'", 'https://cdn.jsdelivr.net', 'https://fonts.scalar.com'],
+          'font-src': [
+            "'self'",
+            'https://cdn.jsdelivr.net',
+            'https://fonts.scalar.com',
+          ],
         },
       },
     }),
@@ -120,7 +124,7 @@ async function bootstrap(): Promise<void> {
     '/api/docs',
     apiReference({
       content: document,
-      theme: "default",
+      theme: 'default',
     }),
   );
 
