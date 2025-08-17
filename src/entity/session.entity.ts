@@ -8,7 +8,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Admin } from './admin.entity';
-import { RequestedSong } from './requestedsong.entity';
+import { RequestedSong } from './requestedSong.entity';
 
 
 @Entity()

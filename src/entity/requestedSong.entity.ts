@@ -2,12 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  ManyToOne,
 } from 'typeorm';
-import { Session } from './session.entity';
 
 @Entity()
 export class RequestedSong {
@@ -25,11 +20,6 @@ export class RequestedSong {
 
   @Column()
   viewerId: string;
-
-  // @ManyToOne(() => Session, (session) => session.requestedSongs,{
-  //   onDelete: 'CASCADE',
-  // })
-  // session: Session;
 
   @Column({ type: 'uuid'})
   sessionId: string;
