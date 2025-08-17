@@ -32,7 +32,7 @@ export class Admin {
   socialMedia: SocialMedia[];
 
   @OneToMany(() => Session, (session) => session.admin)
-  sessions:Session[];
+  sessions: Session[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -42,6 +42,4 @@ export class Admin {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   deletedAt: Date | null;
-
-
 }

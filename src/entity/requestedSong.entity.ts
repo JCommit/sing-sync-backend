@@ -1,8 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class RequestedSong {
@@ -21,6 +17,6 @@ export class RequestedSong {
   @Column()
   viewerId: string;
 
-  @Column({ type: 'uuid'})
+  @Column({ type: 'uuid' })
   sessionId: string;
 }
