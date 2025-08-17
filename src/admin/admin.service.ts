@@ -20,7 +20,7 @@ export class AdminService {
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
     console.log(updateAdminDto);
-    
+
     return `This action updates a #${id} admin`;
   }
 
